@@ -1,10 +1,8 @@
-﻿
 
-namespace BaseLibrary.Entities
+namespace DemoEmployeeManagementSolution
 {
-    public  class GeneralDepartment : BaseEntity
+    public class GeneralDepartment : BaseEntity
     {
-
-
+        
     }
 }

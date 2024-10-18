@@ -1,10 +1,9 @@
-﻿
 
-namespace BaseLibrary.Entities
+namespace DemoEmployeeManagementSolution
 {
     public class Branch : BaseEntity
+    
     {
-
-
+        
     }
 }

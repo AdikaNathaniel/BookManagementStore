@@ -1,20 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-
-namespace BaseLibrary.DTOs
+namespace DemoEmployeeManagementSolution
 {
-    public  class AccountBase
+    public class AccountBase
     {
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         [Required]
-
+      
         public string? Email { get; set; }
         [DataType(DataType.Password)]
         [Required]
 
-        public string? Password { get; set; }
-
-
+        public string? Password { get; set; }  
     }
 }

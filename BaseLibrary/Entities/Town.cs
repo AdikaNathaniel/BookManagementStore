@@ -1,9 +1,8 @@
-﻿
-namespace BaseLibrary.Entities
+
+namespace DemoEmployeeManagementSolution
 {
-    public  class Town : BaseEntity
+    public class Town : BaseEntity
     {
-
-
+        
     }
 }

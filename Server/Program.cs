@@ -1,9 +1,5 @@
+using DemoEmployeeManagementSolution;
 using Microsoft.EntityFrameworkCore;
-using ServerLibrary.Data;
-using ServerLibrary.Helpers;
-using ServerLibrary.Repositories.Contracts;
-using ServerLibrary.Repositories.Implementation;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +12,11 @@ builder.Services.AddSwaggerGen();
 
 //Starting
 builder.Services.AddDbContext<AppDbContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Sorry your connection string is not found"));
+  options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Sorry your connection string is not found"));
 });
 
 builder.Services.Configure<JwtSection>(builder.Configuration.GetSection("JwtSection"));
-builder.Services.AddScoped<IUserAccount, UserAccountRepository>();
+builder.Services.AddScoped<IUserAccount,UserAccountRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

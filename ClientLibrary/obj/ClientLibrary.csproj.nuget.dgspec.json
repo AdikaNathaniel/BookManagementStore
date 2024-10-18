@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ClientLibrary\\ClientLibrary.csproj": {}
+    "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ClientLibrary\\ClientLibrary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ClientLibrary\\ClientLibrary.csproj": {
+    "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ClientLibrary\\ClientLibrary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ClientLibrary\\ClientLibrary.csproj",
+        "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ClientLibrary\\ClientLibrary.csproj",
         "projectName": "ClientLibrary",
-        "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ClientLibrary\\ClientLibrary.csproj",
+        "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ClientLibrary\\ClientLibrary.csproj",
         "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ClientLibrary\\obj\\",
+        "outputPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ClientLibrary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,6 +49,24 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Swashbuckle.AspNetCore.Filters": {
+              "target": "Package",
+              "version": "[7.0.12, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.1.2, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -65,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/9vtHF2/hGs=",
+  "dgSpecHash": "Lq4crLiZWNs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\Server\\Server.csproj",
+  "projectFilePath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ACER\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\ACER\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

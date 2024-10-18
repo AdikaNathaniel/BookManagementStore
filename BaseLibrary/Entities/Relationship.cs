@@ -1,11 +1,11 @@
-﻿using System.Text.Json.Serialization;
 
+using System.Text.Json.Serialization;
 
-namespace BaseLibrary.Entities
+namespace DemoEmployeeManagementSolution
 {
-    public  class Relationship
+    public class Relationship
     {
-
+        
        
     }
 }

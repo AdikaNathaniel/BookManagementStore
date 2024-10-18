@@ -1,10 +1,12 @@
-﻿using BaseLibrary.Entities;
+
+// using BaseLibrary.Entities;
+using DemoEmployeeManagementSolution;
+
 using Microsoft.EntityFrameworkCore;
 
-
-namespace ServerLibrary.Data
+namespace DemoEmployeeManagementSolution
 {
-    public class AppDbContext(DbContextOptions options) : DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
         public DbSet<Employee> Employees { get; set; }
 
@@ -21,9 +23,6 @@ namespace ServerLibrary.Data
         public DbSet<SystemRole> SystemRoles { get; set; }
 
         public DbSet<UserRole> UserRoles { get; set; }
-
-        public DbSet<RefreshTokenInfo> RefreshTokenInfos { get; set; }
-
 
     }
 }

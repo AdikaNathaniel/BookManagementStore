@@ -1,6 +1,8 @@
-﻿
+// using  BaseLibrary.Responses;
 
-namespace BaseLibrary.Responses
+namespace DemoEmployeeManagementSolution
 {
-    public record GeneralResponse(bool Flag, string Message = null!);
+
+  public record GeneralResponse(bool Flag,string Message = null!);
+
 }

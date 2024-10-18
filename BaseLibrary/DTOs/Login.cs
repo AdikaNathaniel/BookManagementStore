@@ -1,11 +1,8 @@
-﻿
 
-namespace BaseLibrary.DTOs
+namespace DemoEmployeeManagementSolution
 {
-    public  class Login : AccountBase
+    public class Login : AccountBase
     {
-
-
-
+        
     }
 }

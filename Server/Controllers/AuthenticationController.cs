@@ -1,37 +1,22 @@
-﻿using BaseLibrary.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ServerLibrary.Repositories.Contracts;
+using Microsoft.AspNetCore.Http;
 
-namespace Server.Controllers
+namespace DemoEmployeeManagementSolution
 {
     [Route("api/[controller]")]
-    [ApiController]
+     [ApiController]
+
     public class AuthenticationController(IUserAccount accountInterface) : ControllerBase
     {
-        [HttpPost("register")]
-        public async Task<IActionResult> CreateAsync(Register user)
+        [HttpPost]
+
+
+        public async Task<IActionResult>  CreateAsync(Register user)
         {
-            if (user == null) return BadRequest("Model is empty");
+            if(user == null) return BadRequest("Model is empty");
             var result = await accountInterface.CreateAsync(user);
             return Ok(result);
         }
-
-
-        [HttpPost("Login")]
-        public async Task<IActionResult> SignInAsync(Login user)
-        {
-            if (user == null) return BadRequest("Model is empty");
-            var result = await accountInterface.SignInAsync(user);
-            return Ok(result);
-        }
-
-        [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshTokenAsync(RefreshToken token)
-        {
-            if (token == null) return BadRequest("Model is empty");
-            var result = await accountInterface.RefreshTokenAsync(token);
-            return Ok(result);
-        }
+        
     }
 }

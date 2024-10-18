@@ -2,22 +2,6 @@
   "version": 3,
   "targets": {
     "net8.0": {
-      "AutoMapper/13.0.1": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Options": "6.0.0"
-        },
-        "compile": {
-          "lib/net6.0/AutoMapper.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/AutoMapper.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Azure.Core/1.35.0": {
         "type": "package",
         "dependencies": {
@@ -1602,7 +1586,10 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "AutoMapper": "13.0.1"
+          "BCrypt.Net-Next": "4.0.3",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.0",
+          "Swashbuckle.AspNetCore.Filters": "7.0.12",
+          "System.IdentityModel.Tokens.Jwt": "8.1.2"
         },
         "compile": {
           "bin/placeholder/BaseLibrary.dll": {}
@@ -1614,21 +1601,6 @@
     }
   },
   "libraries": {
-    "AutoMapper/13.0.1": {
-      "sha512": "/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
-      "type": "package",
-      "path": "automapper/13.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "automapper.13.0.1.nupkg.sha512",
-        "automapper.nuspec",
-        "icon.png",
-        "lib/net6.0/AutoMapper.dll",
-        "lib/net6.0/AutoMapper.xml"
-      ]
-    },
     "Azure.Core/1.35.0": {
       "sha512": "hENcx03Jyuqv05F4RBEPbxz29UrM3Nbhnr6Wl6NQpoU9BCIbL3XLentrxDCTrH54NLS11Exxi/o8MYgT/cnKFA==",
       "type": "package",
@@ -4100,11 +4072,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ServerLibrary\\ServerLibrary.csproj",
+      "projectUniqueName": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ServerLibrary\\ServerLibrary.csproj",
       "projectName": "ServerLibrary",
-      "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ServerLibrary\\ServerLibrary.csproj",
+      "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ServerLibrary\\ServerLibrary.csproj",
       "packagesPath": "C:\\Users\\ACER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\ServerLibrary\\obj\\",
+      "outputPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\ServerLibrary\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4126,8 +4098,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\BaseLibrary\\BaseLibrary.csproj": {
-              "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManager\\BaseLibrary\\BaseLibrary.csproj"
+            "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\BaseLibrary\\BaseLibrary.csproj": {
+              "projectPath": "C:\\Users\\ACER\\source\\repos\\DemoEmployeeManagementSolution\\BaseLibrary\\BaseLibrary.csproj"
             }
           }
         }
@@ -4198,7 +4170,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

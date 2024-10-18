@@ -1,19 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
-namespace BaseLibrary.DTOs
+namespace DemoEmployeeManagementSolution
 {
-    public  class Register : AccountBase
+    public class Register : AccountBase
     {
-        [Required]
-        [MinLength(5)]
-        [MaxLength(100)]
+         [Required] 
+         [MinLength(5)]
+         [MaxLength(100)]
 
-        public string? FullName { get; set; }
-
+        public string? FullName { get; set;}
+  
         [DataType(DataType.Password)]
         [Compare(nameof(Password))]
         [Required]
 
-        public string? ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set;}
     }
 }

@@ -1002,7 +1002,10 @@
       },
       "BaseLibrary/1.0.0": {
         "dependencies": {
-          "AutoMapper": "13.0.1"
+          "BCrypt.Net-Next": "4.0.3",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.10",
+          "Swashbuckle.AspNetCore.Filters": "8.0.2",
+          "System.IdentityModel.Tokens.Jwt": "8.1.2"
         },
         "runtime": {
           "BaseLibrary.dll": {
