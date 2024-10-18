@@ -9,3 +9,4 @@ C:\Users\ACER\source\repos\DemoEmployeeManager\ClientLibrary\obj\Debug\net8.0\Cl
 C:\Users\ACER\source\repos\DemoEmployeeManager\ClientLibrary\obj\Debug\net8.0\refint\ClientLibrary.dll
 C:\Users\ACER\source\repos\DemoEmployeeManager\ClientLibrary\obj\Debug\net8.0\ClientLibrary.pdb
 C:\Users\ACER\source\repos\DemoEmployeeManager\ClientLibrary\obj\Debug\net8.0\ref\ClientLibrary.dll
+C:\Users\ACER\source\repos\DemoEmployeeManager\ClientLibrary\obj\Debug\net8.0\ClientLibrary.sourcelink.json

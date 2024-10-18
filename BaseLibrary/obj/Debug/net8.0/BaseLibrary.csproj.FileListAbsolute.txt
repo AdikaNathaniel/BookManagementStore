@@ -10,3 +10,4 @@ C:\Users\ACER\source\repos\DemoEmployeeManager\BaseLibrary\obj\Debug\net8.0\refi
 C:\Users\ACER\source\repos\DemoEmployeeManager\BaseLibrary\obj\Debug\net8.0\BaseLibrary.pdb
 C:\Users\ACER\source\repos\DemoEmployeeManager\BaseLibrary\obj\Debug\net8.0\ref\BaseLibrary.dll
 C:\Users\ACER\source\repos\DemoEmployeeManager\BaseLibrary\obj\Debug\net8.0\BaseLibrary.csproj.AssemblyReference.cache
+C:\Users\ACER\source\repos\DemoEmployeeManager\BaseLibrary\obj\Debug\net8.0\BaseLibrary.sourcelink.json
