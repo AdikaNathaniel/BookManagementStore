@@ -1,5 +1,4 @@
-
-namespace DemoEmployeeManagementSolution
+namespace BaseLibrary.Entities
 {
     public class UserRole
     {

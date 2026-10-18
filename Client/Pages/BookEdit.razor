@@ -1,0 +1,137 @@
+@page "/books/new"
+@page "/books/edit/{Id:int}"
+@attribute [Authorize(Roles = "Admin")]
+@inject IBookService BookService
+@inject IGenericService<Author> AuthorService
+@inject IGenericService<Category> CategoryService
+@inject NavigationManager Navigation
+
+<PageTitle>@(IsNew ? "Add book" : "Edit book")</PageTitle>
+
+<h1 class="h3 mb-3">@(IsNew ? "Add book" : "Edit book")</h1>
+
+<StatusMessage Response="status" />
+
+@if (book is null)
+{
+    <p>@(notFound ? "That book no longer exists." : "Loading...")</p>
+}
+else
+{
+    @if (authors.Count == 0 || categories.Count == 0)
+    {
+        <div class="alert alert-warning">
+            Add at least one <a href="authors">author</a> and one <a href="categories">category</a> before adding books.
+        </div>
+    }
+
+    <EditForm Model="book" OnValidSubmit="SaveAsync" class="row g-3" style="max-width: 720px">
+        <DataAnnotationsValidator />
+
+        <div class="col-12">
+            <label class="form-label">Title</label>
+            <InputText class="form-control" @bind-Value="book.Title" />
+            <ValidationMessage For="() => book.Title" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">ISBN</label>
+            <InputText class="form-control" @bind-Value="book.Isbn" placeholder="9780000000000" />
+            <ValidationMessage For="() => book.Isbn" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Year published</label>
+            <InputNumber class="form-control" @bind-Value="book.PublishedYear" />
+            <ValidationMessage For="() => book.PublishedYear" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Author</label>
+            <InputSelect class="form-select" @bind-Value="book.AuthorId">
+                <option value="0">Select an author</option>
+                @foreach (var author in authors)
+                {
+                    <option value="@author.Id">@author.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="() => book.AuthorId" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Category</label>
+            <InputSelect class="form-select" @bind-Value="book.CategoryId">
+                <option value="0">Select a category</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="() => book.CategoryId" />
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Price</label>
+            <InputNumber class="form-control" @bind-Value="book.Price" step="0.01" />
+            <ValidationMessage For="() => book.Price" />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Copies in stock</label>
+            <InputNumber class="form-control" @bind-Value="book.StockQuantity" />
+            <ValidationMessage For="() => book.StockQuantity" />
+        </div>
+
+        <div class="col-12">
+            <label class="form-label">Description</label>
+            <InputTextArea class="form-control" rows="4" @bind-Value="book.Description" />
+            <ValidationMessage For="() => book.Description" />
+        </div>
+
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary" disabled="@saving">@(saving ? "Saving..." : "Save")</button>
+            <a class="btn btn-link" href="">Cancel</a>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private bool IsNew => Id is null;
+    private Book? book;
+    private List<Author> authors = [];
+    private List<Category> categories = [];
+    private GeneralResponse? status;
+    private bool notFound;
+    private bool saving;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            authors = await AuthorService.GetAllAsync();
+            categories = await CategoryService.GetAllAsync();
+
+            if (IsNew)
+            {
+                book = new Book { PublishedYear = DateTime.Now.Year };
+            }
+            else
+            {
+                book = await BookService.GetByIdAsync(Id!.Value);
+                notFound = book is null;
+            }
+        }
+        catch (HttpRequestException)
+        {
+            status = new GeneralResponse(false, "Could not reach the server. Is the API running?");
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        saving = true;
+        status = IsNew ? await BookService.InsertAsync(book!) : await BookService.UpdateAsync(book!);
+        saving = false;
+
+        if (status.Flag) Navigation.NavigateTo("");
+    }
+}

@@ -1,0 +1,109 @@
+@page "/authors"
+@attribute [Authorize(Roles = "Admin")]
+@inject IGenericService<Author> AuthorService
+@inject IJSRuntime JS
+
+<PageTitle>Authors</PageTitle>
+
+<h1 class="h3 mb-3">Authors</h1>
+
+<StatusMessage Response="status" />
+
+<div class="card mb-4" style="max-width: 720px">
+    <div class="card-body">
+        <h2 class="h5">@(editing.Id == 0 ? "Add author" : "Edit author")</h2>
+        <EditForm Model="editing" OnValidSubmit="SaveAsync">
+            <DataAnnotationsValidator />
+            <div class="mb-2">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="editing.Name" />
+                <ValidationMessage For="() => editing.Name" />
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Biography</label>
+                <InputTextArea class="form-control" rows="3" @bind-Value="editing.Biography" />
+                <ValidationMessage For="() => editing.Biography" />
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            @if (editing.Id != 0)
+            {
+                <button type="button" class="btn btn-link" @onclick="ResetForm">Cancel</button>
+            }
+        </EditForm>
+    </div>
+</div>
+
+@if (authors is null)
+{
+    <p>Loading authors...</p>
+}
+else if (authors.Count == 0)
+{
+    <p>No authors yet.</p>
+}
+else
+{
+    <table class="table align-middle">
+        <thead>
+            <tr><th>Name</th><th>Biography</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var author in authors)
+            {
+                <tr>
+                    <td>@author.Name</td>
+                    <td class="small text-muted">@author.Biography</td>
+                    <td class="text-end text-nowrap">
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => Edit(author)">Edit</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(author)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Author>? authors;
+    private Author editing = new();
+    private GeneralResponse? status;
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        try
+        {
+            authors = await AuthorService.GetAllAsync();
+        }
+        catch (HttpRequestException)
+        {
+            authors = [];
+            status = new GeneralResponse(false, "Could not reach the server. Is the API running?");
+        }
+    }
+
+    //Edit a copy so cancelling doesn't change the row in the table
+    private void Edit(Author author) =>
+        editing = new Author { Id = author.Id, Name = author.Name, Biography = author.Biography };
+
+    private void ResetForm() => editing = new();
+
+    private async Task SaveAsync()
+    {
+        status = editing.Id == 0 ? await AuthorService.InsertAsync(editing) : await AuthorService.UpdateAsync(editing);
+        if (status.Flag)
+        {
+            ResetForm();
+            await LoadAsync();
+        }
+    }
+
+    private async Task DeleteAsync(Author author)
+    {
+        if (!await JS.InvokeAsync<bool>("confirm", $"Delete {author.Name}?")) return;
+
+        status = await AuthorService.DeleteAsync(author.Id);
+        if (status.Flag) await LoadAsync();
+    }
+}

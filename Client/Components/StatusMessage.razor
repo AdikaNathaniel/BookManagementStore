@@ -1,0 +1,8 @@
+@if (Response is not null)
+{
+    <div class="alert @(Response.Flag ? "alert-success" : "alert-danger")" role="status">@Response.Message</div>
+}
+
+@code {
+    [Parameter] public GeneralResponse? Response { get; set; }
+}

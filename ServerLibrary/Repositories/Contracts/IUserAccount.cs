@@ -1,7 +1,7 @@
-// using BaseLibrary.DTOs;
-// using BaseLibrary.Responses;
+using BaseLibrary.DTOs;
+using BaseLibrary.Responses;
 
-namespace DemoEmployeeManagementSolution
+namespace ServerLibrary.Repositories.Contracts
 {
     public interface IUserAccount
     {
@@ -9,6 +9,6 @@ namespace DemoEmployeeManagementSolution
 
         Task<LoginResponse> SignInAsync(Login user);
 
-
-    } 
+        Task<LoginResponse> RefreshTokenAsync(RefreshToken token);
+    }
 }

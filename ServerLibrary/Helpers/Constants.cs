@@ -1,10 +1,10 @@
-
-namespace DemoEmployeeManagementSolution
+namespace ServerLibrary.Helpers
 {
     public static class Constants
     {
-          public static string Admin { get; } = "Admin";
+        //const so they can be used in [Authorize(Roles = ...)] attributes
+        public const string Admin = "Admin";
 
-          public static string User { get; } = "User";
+        public const string User = "User";
     }
 }

@@ -1,9 +1,8 @@
-
-namespace DemoEmployeeManagementSolution
+namespace BaseLibrary.Entities
 {
     public class ApplicationUser
     {
-        //Without concern for whether someone is an administrator,manager or employee 
+        //Any user of the store, whether an administrator or a customer
         public int Id { get; set; }
 
         public string? Fullname { get; set; }
@@ -11,6 +10,5 @@ namespace DemoEmployeeManagementSolution
         public string? Email { get; set; }
 
         public string? Password { get; set; }
-  
     }
 }

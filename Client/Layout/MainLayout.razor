@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@inject IUserAccountService AccountService
+@inject NavigationManager Navigation
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -6,7 +9,22 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <AuthorizeView>
+                <Authorized>
+                    <span class="me-3">
+                        Hello, @context.User.Identity?.Name
+                        @if (context.User.IsInRole("Admin"))
+                        {
+                            <span class="badge bg-secondary ms-1">Admin</span>
+                        }
+                    </span>
+                    <button class="btn btn-link p-0" @onclick="LogoutAsync">Log out</button>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="login">Log in</a>
+                    <a href="register">Register</a>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
 
         <article class="content px-4">
@@ -14,3 +32,11 @@
         </article>
     </main>
 </div>
+
+@code {
+    private async Task LogoutAsync()
+    {
+        await AccountService.LogoutAsync();
+        Navigation.NavigateTo("");
+    }
+}

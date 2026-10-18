@@ -1,0 +1,102 @@
+@page "/categories"
+@attribute [Authorize(Roles = "Admin")]
+@inject IGenericService<Category> CategoryService
+@inject IJSRuntime JS
+
+<PageTitle>Categories</PageTitle>
+
+<h1 class="h3 mb-3">Categories</h1>
+
+<StatusMessage Response="status" />
+
+<div class="card mb-4" style="max-width: 720px">
+    <div class="card-body">
+        <h2 class="h5">@(editing.Id == 0 ? "Add category" : "Edit category")</h2>
+        <EditForm Model="editing" OnValidSubmit="SaveAsync">
+            <DataAnnotationsValidator />
+            <div class="mb-2">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="editing.Name" />
+                <ValidationMessage For="() => editing.Name" />
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            @if (editing.Id != 0)
+            {
+                <button type="button" class="btn btn-link" @onclick="ResetForm">Cancel</button>
+            }
+        </EditForm>
+    </div>
+</div>
+
+@if (categories is null)
+{
+    <p>Loading categories...</p>
+}
+else if (categories.Count == 0)
+{
+    <p>No categories yet.</p>
+}
+else
+{
+    <table class="table align-middle" style="max-width: 720px">
+        <thead>
+            <tr><th>Name</th><th></th></tr>
+        </thead>
+        <tbody>
+            @foreach (var category in categories)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td class="text-end text-nowrap">
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="() => Edit(category)">Edit</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(category)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Category>? categories;
+    private Category editing = new();
+    private GeneralResponse? status;
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        try
+        {
+            categories = await CategoryService.GetAllAsync();
+        }
+        catch (HttpRequestException)
+        {
+            categories = [];
+            status = new GeneralResponse(false, "Could not reach the server. Is the API running?");
+        }
+    }
+
+    //Edit a copy so cancelling doesn't change the row in the table
+    private void Edit(Category category) => editing = new Category { Id = category.Id, Name = category.Name };
+
+    private void ResetForm() => editing = new();
+
+    private async Task SaveAsync()
+    {
+        status = editing.Id == 0 ? await CategoryService.InsertAsync(editing) : await CategoryService.UpdateAsync(editing);
+        if (status.Flag)
+        {
+            ResetForm();
+            await LoadAsync();
+        }
+    }
+
+    private async Task DeleteAsync(Category category)
+    {
+        if (!await JS.InvokeAsync<bool>("confirm", $"Delete {category.Name}?")) return;
+
+        status = await CategoryService.DeleteAsync(category.Id);
+        if (status.Flag) await LoadAsync();
+    }
+}

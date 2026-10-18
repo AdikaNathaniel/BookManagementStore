@@ -1,7 +1,135 @@
 ﻿@page "/"
+@inject IBookService BookService
+@inject IGenericService<Category> CategoryService
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Book Management Store</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Book catalogue</h1>
+    <AuthorizeView Roles="Admin">
+        <a class="btn btn-primary" href="books/new">Add book</a>
+    </AuthorizeView>
+</div>
 
-Welcome to your new app.
+<form class="row g-2 mb-3" @onsubmit="SearchAsync">
+    <div class="col-sm-6">
+        <input class="form-control" placeholder="Search by title, ISBN or author" @bind="searchText" />
+    </div>
+    <div class="col-sm-4">
+        <select class="form-select" @bind="categoryId">
+            <option value="">All categories</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-sm-2 d-grid">
+        <button type="submit" class="btn btn-outline-primary">Search</button>
+    </div>
+</form>
+
+<StatusMessage Response="status" />
+
+@if (books is null)
+{
+    <p>Loading books...</p>
+}
+else if (books.Count == 0)
+{
+    <p>No books match your search.</p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Year</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-end">In stock</th>
+                    <AuthorizeView Roles="Admin"><th></th></AuthorizeView>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in books)
+                {
+                    <tr>
+                        <td>
+                            <strong>@book.Title</strong>
+                            <div class="small text-muted">ISBN @book.Isbn</div>
+                        </td>
+                        <td>@book.Author?.Name</td>
+                        <td>@book.Category?.Name</td>
+                        <td>@book.PublishedYear</td>
+                        <td class="text-end">@book.Price.ToString("0.00")</td>
+                        <td class="text-end">
+                            @if (book.StockQuantity == 0)
+                            {
+                                <span class="badge bg-danger">Out of stock</span>
+                            }
+                            else
+                            {
+                                @book.StockQuantity
+                            }
+                        </td>
+                        <AuthorizeView Roles="Admin">
+                            <td class="text-end text-nowrap">
+                                <button class="btn btn-sm btn-outline-secondary" @onclick='() => Navigation.NavigateTo($"books/edit/{book.Id}")'>Edit</button>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(book)">Delete</button>
+                            </td>
+                        </AuthorizeView>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private List<Book>? books;
+    private List<Category> categories = [];
+    private string? searchText;
+    private int? categoryId;
+    private GeneralResponse? status;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            categories = await CategoryService.GetAllAsync();
+            books = await BookService.SearchAsync(null, null);
+        }
+        catch (HttpRequestException)
+        {
+            books = [];
+            status = new GeneralResponse(false, "Could not reach the server. Is the API running?");
+        }
+    }
+
+    private async Task SearchAsync()
+    {
+        status = null;
+        try
+        {
+            books = await BookService.SearchAsync(searchText, categoryId);
+        }
+        catch (HttpRequestException)
+        {
+            status = new GeneralResponse(false, "Could not reach the server. Is the API running?");
+        }
+    }
+
+    private async Task DeleteAsync(Book book)
+    {
+        if (!await JS.InvokeAsync<bool>("confirm", $"Delete \"{book.Title}\"?")) return;
+
+        status = await BookService.DeleteAsync(book.Id);
+        if (status.Flag) await SearchAsync();
+    }
+}

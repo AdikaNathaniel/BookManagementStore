@@ -1,6 +1,38 @@
-@Server_HostAddress = http://localhost:5074
+@Server_HostAddress = https://localhost:7053
 
-GET {{Server_HostAddress}}/weatherforecast/
+### Browse the catalogue (no login needed)
+GET {{Server_HostAddress}}/api/book
 Accept: application/json
 
-###
+### Search books by title, ISBN or author name
+GET {{Server_HostAddress}}/api/book/search?text=achebe
+Accept: application/json
+
+### Register (the first account created becomes the administrator)
+POST {{Server_HostAddress}}/api/authentication/register
+Content-Type: application/json
+
+{
+  "fullName": "Store Admin",
+  "email": "admin@example.com",
+  "password": "ChangeMe123!",
+  "confirmPassword": "ChangeMe123!"
+}
+
+### Log in and copy the token into the Authorization header below
+POST {{Server_HostAddress}}/api/authentication/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "ChangeMe123!"
+}
+
+### Add a category (administrators only)
+POST {{Server_HostAddress}}/api/category
+Content-Type: application/json
+Authorization: Bearer <paste token here>
+
+{
+  "name": "Poetry"
+}
